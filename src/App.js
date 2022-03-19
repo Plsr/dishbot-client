@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css'
 import { useEffect, useState } from 'react';
+import { validateToken } from './util/api';
 
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
@@ -61,15 +62,24 @@ function App() {
     setLoggedIn(false)
   }
 
+  const handleValidateTokenButtonPress = async () => {
+    await validateToken(user.accessToken)
+  }
+
   return (
     <div className="App">
       { loggedIn && (
         <>
           <p>Hello, {user.email}</p>
+          <button onClick={handleValidateTokenButtonPress}>Validate Token</button>
           <button onClick={handleLogoutButtonPress}>Logout</button>
         </>
       )}
-      { !loggedIn && <button onClick={handleLoginButtonPress}>Login</button>}
+      { !loggedIn && (
+        <>
+          <button onClick={handleLoginButtonPress}>Login</button>
+        </>
+      )}
     </div>
   );
 }
