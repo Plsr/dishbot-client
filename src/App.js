@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import UserContext from './util/userContext';
 import RequireAuth from './components/RequireAuth';
 import Landing from './pages/Landing';
+import SignUp from './pages/SignUp';
 
 
 function App() {
@@ -22,7 +23,15 @@ function App() {
         if (user) {
           console.log('user is authenticated')
           setUser(user)
-          navigate('/home')
+          navigate('/home', {
+            state: {
+              displayToast: {
+                status: 'success',
+                title: 'Great success',
+                description: 'Successfully logged in'
+              } 
+            }
+          })
         } else {
           console.log('user is not authenticated')
           setUser(null)
@@ -43,6 +52,7 @@ function App() {
             }
           />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </UserContext.Provider>
     </ChakraProvider>
