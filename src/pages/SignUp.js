@@ -25,14 +25,11 @@ export default function SignUp() {
     return password === confirmation
   }
 
-
-
   const handlePasswordChange = (event) => {
     const value = event.target.value
     setPasswordValue(value)
     setPasswordsMatch(checkPasswordsMatch(value))
   }
-  
 
   const loginPossible = () => {
     if (!emailValue || !passwordValue || !passwordConfirmationValue) return false
@@ -46,7 +43,6 @@ export default function SignUp() {
     if (!checkPasswordsMatch()) setPasswordsMatch(false)
   }
 
-
   const handlePasswordConfirmationBlur = () => {
     if (!passwordConfirmationValue) return
     if (!checkPasswordsMatch()) setPasswordsMatch(false)
@@ -54,7 +50,6 @@ export default function SignUp() {
 
   const validEmailFormat = () =>  /^\S+@\S+\.\S+$/.test(emailValue)
 
-  // TODO: Display meaningful feedback in success case
   const handleSignupButtonPress = async () => {
     if (!loginPossible()) return 
 

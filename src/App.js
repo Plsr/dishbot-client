@@ -23,7 +23,15 @@ function App() {
         if (user) {
           console.log('user is authenticated')
           setUser(user)
-          navigate('/home')
+          navigate('/home', {
+            state: {
+              displayToast: {
+                status: 'success',
+                title: 'Great success',
+                description: 'Successfully logged in'
+              } 
+            }
+          })
         } else {
           console.log('user is not authenticated')
           setUser(null)
