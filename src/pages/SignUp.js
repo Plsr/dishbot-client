@@ -1,10 +1,11 @@
 import { useState } from "react"
-import auth from "../util/firebase"
+import auth, { messageForFirebaseErrorCode } from "../util/firebase"
 import { createUserWithEmailAndPassword } from "firebase/auth"
-import { Input, Button, Center, Text, Container } from "@chakra-ui/react"
+import { Input, Button, Center, Text, Container, useToast } from "@chakra-ui/react"
 import BoxWithTitle from "../components/BoxWithTitle"
 
 export default function SignUp() {
+  const toast = useToast()
   const [emailValue, setEmailValue] = useState('')
   const [passwordValue, setPasswordValue] = useState('')
   const [passwordConfirmationValue, setPasswordConfirmationValue] = useState('')
@@ -23,6 +24,8 @@ export default function SignUp() {
     if (ignoreEmpty && (!password || !confirmation)) return true
     return password === confirmation
   }
+
+
 
   const handlePasswordChange = (event) => {
     const value = event.target.value
@@ -51,7 +54,7 @@ export default function SignUp() {
 
   const validEmailFormat = () =>  /^\S+@\S+\.\S+$/.test(emailValue)
 
-  // TODO: Display meaningful feedback
+  // TODO: Display meaningful feedback in success case
   const handleSignupButtonPress = async () => {
     if (!loginPossible()) return 
 
@@ -59,6 +62,13 @@ export default function SignUp() {
       const res = await createUserWithEmailAndPassword(auth, emailValue, passwordValue)
       console.log(res)
     } catch (error) {
+      toast({
+        title: 'Something went wrong',
+        description: messageForFirebaseErrorCode(error.code),
+        status: 'error',
+        duration: 6000,
+        isClosable: true,
+      })
       console.error(error)
     }
   }
