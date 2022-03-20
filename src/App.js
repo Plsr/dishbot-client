@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import UserContext from './util/userContext';
 import RequireAuth from './components/RequireAuth';
 import Landing from './pages/Landing';
+import SignUp from './pages/SignUp';
 
 
 function App() {
@@ -43,6 +44,7 @@ function App() {
             }
           />
           <Route path="/signin" element={<SignIn />} />
+          <Route path="/signup" element={<SignUp />} />
         </Routes>
       </UserContext.Provider>
     </ChakraProvider>
