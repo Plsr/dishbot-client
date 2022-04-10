@@ -32,6 +32,8 @@ const Wrapper = styled(Content)`
   display: flex;
   align-items: center;
   margin: 2rem 0;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid ${props => props.theme.colors.gray[200]};
 `
 
 const SignedOutWrapper = styled.div`
