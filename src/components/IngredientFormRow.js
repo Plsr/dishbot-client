@@ -1,6 +1,6 @@
 import { Input, HStack } from "@chakra-ui/react"
 
-export default function IngredientFormRow({ name, amount, unit, onChange }) {
+export default function IngredientFormRow({ name, amount, unit, onChange, className }) {
 
   const handleNameChange = (e) => {
     onChange({
@@ -27,7 +27,7 @@ export default function IngredientFormRow({ name, amount, unit, onChange }) {
   }
 
   return (
-    <HStack spacing="24px">
+    <HStack className={className} spacing="24px">
       <Input placeholder="Name" value={name} onChange={handleNameChange} />
       <Input placeholder="Amount" value={amount} onChange={handleAmountChange} />
       <Input placeholder="Unit" value={unit} onChange={handleUnitChange} />

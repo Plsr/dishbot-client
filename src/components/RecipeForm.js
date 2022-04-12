@@ -1,8 +1,9 @@
 import { useState } from "react";
-import { Button, Input } from "@chakra-ui/react"
+import { Button, Input, Flex, Spacer } from "@chakra-ui/react"
 import IngredientFormRow from "./IngredientFormRow";
+import styled from "@emotion/styled";
 
-export default function RecipeForm({ onClose, onSubmit }) {
+export default function RecipeForm({ onClose, onSubmit, className }) {
   const empytIngredientRow = { name: undefined, amount: undefined, unit: undefined };
 
   const [ingredients, setIngredients] = useState([{...empytIngredientRow}]);
@@ -60,12 +61,25 @@ export default function RecipeForm({ onClose, onSubmit }) {
   }
 
   return (
-    <>
-      <Input placeholder="Title" value={title} onChange={handleTitleChange}/>
-      <Input placeholder="Description" value={description} onChange={handleDescriptionChange} />
-      { ingredients.map((ingredient, index) => <IngredientFormRow key={index} {...ingredient} onChange={(data) => handleIngredientRowChange(index, data)} />)}
-      <Button onClick={handleCloseButtonClick}>Close</Button>
-      <Button onClick={handleSubmitButtonClick} disabled={!formSubmittable(gatherFormData())}>Submit</Button>
-    </>
+    <div className={className}>
+      <Input placeholder="Title" value={title} onChange={handleTitleChange} mb={4} />
+      <Input placeholder="Description" value={description} onChange={handleDescriptionChange} mb={4} />
+      { ingredients.map((ingredient, index) => (
+        <StyledIngredientFormRow
+          {...ingredient} 
+          key={index} 
+          onChange={(data) => handleIngredientRowChange(index, data)}
+        />
+      ))}
+      <Flex>
+        <Button onClick={handleCloseButtonClick} mr={2}>Close</Button>
+        <Spacer />
+        <Button colorScheme="blue" onClick={handleSubmitButtonClick} disabled={!formSubmittable(gatherFormData())}>Submit</Button>
+      </Flex>
+    </div>
   )
 }
+
+const StyledIngredientFormRow = styled(IngredientFormRow)`
+  margin-bottom: 1rem;
+`
