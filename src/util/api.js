@@ -21,14 +21,12 @@ export async function validateToken(token) {
       'Authorization': `Bearer ${token}`
     }
   }
-  // TODO: 4xx Handlind
+
   const res = await fetch(SERVER_BASE_URL + '/token',requestOptions)
   const json = await res.json()
-  console.log(json)
   return json
 }
 
-// TODO: Error handling
 export async function postRecipe(token, reicpe) {
   const requestOptions = {
     method: 'POST',
@@ -42,7 +40,6 @@ export async function postRecipe(token, reicpe) {
   const res = await fetch(SERVER_BASE_URL + '/recipes', requestOptions)
   if (res.status !== 201) throw new Error("Could not create recipe")
   const json = await res.json()
-  console.log(json) 
   return json.recipe
 }
 
@@ -56,7 +53,5 @@ export async function getRecipes(token) {
 
   const res = await fetch(SERVER_BASE_URL + '/recipes', requestOptions)
   const json = await res.json()
-  console.log(res)
-  console.log(json.recipes)
   return json.recipes
 }

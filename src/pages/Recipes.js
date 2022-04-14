@@ -1,9 +1,10 @@
-import { Button, Heading, useToast } from '@chakra-ui/react';
+import { Button, Heading, SimpleGrid, useToast } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons';
 import styled from '@emotion/styled';
 import { useState, useContext, useEffect } from 'react'
 
 import RecipeForm from '../components/RecipeForm';
+import Recipe from '../components/Recipe';
 import { postRecipe, getRecipes as getApiRecipes } from '../util/api';
 import UserContext from '../util/userContext';
 import { Content } from '../util/layout';
@@ -64,9 +65,11 @@ export default function Recipes() {
           onSubmit={handleFormSubmit}
         />
       )}
-      {recipes.map(recipe =>
-        <p>{ recipe.title }</p>
-      )}
+      <SimpleGrid columns={3} spacing={10} >
+        {recipes.map(recipe =>
+          <Recipe name={recipe.title} ingredients={recipe.ingredients} createdAt={recipe.createdAt} />
+        )}
+      </SimpleGrid>
     </Content>
   )
 }
