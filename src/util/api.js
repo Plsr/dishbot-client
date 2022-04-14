@@ -4,8 +4,14 @@
  * - Use context to get user token instead of having to pass it in with every request
  * - use api base class that sets the headers and so on?
  */
-
 const SERVER_BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
+
+class ApiError extends Error {
+  constructor(message, httpStatus) {
+    super(message);
+    this.httpStatus = httpStatus;
+  }
+}
 
 export async function validateToken(token) {
   const requestOptions = {
@@ -34,8 +40,9 @@ export async function postRecipe(token, reicpe) {
   }
 
   const res = await fetch(SERVER_BASE_URL + '/recipes', requestOptions)
+  if (res.status !== 201) throw new Error("Could not create recipe")
   const json = await res.json()
-  console.log(json)
+  console.log(json) 
   return json.recipe
 }
 
@@ -49,6 +56,7 @@ export async function getRecipes(token) {
 
   const res = await fetch(SERVER_BASE_URL + '/recipes', requestOptions)
   const json = await res.json()
+  console.log(res)
   console.log(json.recipes)
   return json.recipes
 }

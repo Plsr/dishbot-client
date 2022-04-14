@@ -1,4 +1,4 @@
-import { Button, Heading } from '@chakra-ui/react';
+import { Button, Heading, useToast } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons';
 import styled from '@emotion/styled';
 import { useState, useContext, useEffect } from 'react'
@@ -12,6 +12,7 @@ export default function Recipes() {
   const [showRecipeForm, setShowRecipeForm] = useState(false);
   const [recipes, setRecipes] = useState([])
   const user = useContext(UserContext);
+  const toast = useToast();
 
   useEffect(() => {
     const getRecipes = async() => {
@@ -26,12 +27,27 @@ export default function Recipes() {
     setShowRecipeForm(true);
   }
 
-  // TODO: Error handling
   const handleFormSubmit = async (data) => {
-    const recipe = await postRecipe(user.accessToken, data)
-    setRecipes([...recipes, recipe])
-    setShowRecipeForm(false);
-    console.log("Submitted form with data: ", data)
+    try {
+      const recipe = await postRecipe(user.accessToken, data)
+      setRecipes([...recipes, recipe])
+      setShowRecipeForm(false);
+      toast({
+        title: 'Success',
+        description: 'Recipe has successfully been added',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch(error) { 
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   }
 
   return (
