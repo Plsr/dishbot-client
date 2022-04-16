@@ -67,7 +67,7 @@ export default function Recipes() {
       )}
       <SimpleGrid columns={3} spacing={10} >
         {recipes.map(recipe =>
-          <Recipe name={recipe.title} ingredients={recipe.ingredients} createdAt={recipe.createdAt} />
+          <Recipe key={recipe.id} name={recipe.title} ingredients={recipe.ingredients} createdAt={recipe.createdAt} />
         )}
       </SimpleGrid>
     </Content>

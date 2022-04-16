@@ -1,6 +1,7 @@
-import { Input, HStack } from "@chakra-ui/react"
+import { Input, HStack, Select } from "@chakra-ui/react"
 
 export default function IngredientFormRow({ name, amount, unit, onChange, className }) {
+  const UNIT_OPTIONS = ['pcs', 'g', 'ml', 'l', 'kg', 'tsp', 'tbsp', 'cup', 'oz', 'lb', 'pckgs']
 
   const handleNameChange = (e) => {
     onChange({
@@ -29,8 +30,12 @@ export default function IngredientFormRow({ name, amount, unit, onChange, classN
   return (
     <HStack className={className} spacing="24px">
       <Input placeholder="Name" value={name} onChange={handleNameChange} />
-      <Input placeholder="Amount" value={amount} onChange={handleAmountChange} />
-      <Input placeholder="Unit" value={unit} onChange={handleUnitChange} />
+      <Input placeholder="Amount" type="number" value={amount} onChange={handleAmountChange} />
+      <Select placeholder="Select unit" onChange={handleUnitChange}>
+        {UNIT_OPTIONS.map(unit => (
+          <option key={unit} value={unit}>{unit}</option>
+        ))}
+      </Select>
     </HStack>
   )
 }

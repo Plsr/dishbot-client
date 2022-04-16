@@ -4,7 +4,7 @@ import IngredientFormRow from "./IngredientFormRow";
 import styled from "@emotion/styled";
 
 export default function RecipeForm({ onClose, onSubmit, className }) {
-  const empytIngredientRow = { name: undefined, amount: undefined, unit: undefined };
+  const empytIngredientRow = { name: '', amount: '', unit: '' };
 
   const [ingredients, setIngredients] = useState([{...empytIngredientRow}]);
   const [title, setTitle] = useState("");
