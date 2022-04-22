@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
+import { postMealPlan } from '../util/api'
+import userContext from '../util/userContext'
 import {
   Modal,
   ModalOverlay,
@@ -15,6 +17,7 @@ export default function MealPlanForm({ recipes }) {
   const [selectedRecipes, setSelecteRecipes] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [title, setTitle] = useState('New meal plan')
+  const user = useContext(userContext)
 
   const handleAddNewClick = () => {
     setShowModal(true)
@@ -31,9 +34,17 @@ export default function MealPlanForm({ recipes }) {
     setShowModal(false)
   }
 
-  const handleSaveFormClick = () => {
+  const handleSaveFormClick = async() => {
     console.log('Attempting to create new meal plan')
     console.log(selectedRecipes)
+    const recipeIds = selectedRecipes.map(recipe => recipe._id)
+    const mealPlanData = {
+      title,
+      recipes: [...recipeIds]
+    }
+
+    const mealPlan = await postMealPlan(user.accessToken, mealPlanData)
+    console.log(mealPlan)
   }
 
   return(

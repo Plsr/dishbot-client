@@ -20,6 +20,22 @@ export async function validateToken(token) {
   return json
 }
 
+export async function postMealPlan(token, mealPlan) {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(mealPlan)
+  }
+
+  const res = await fetch(SERVER_BASE_URL + '/meal-plans', requestOptions)
+  if (res.status !== 201) throw new Error('Could not create Meal Plan')
+  const json = await res.json()
+  return json.mealPlan
+}
+
 export async function postRecipe(token, reicpe) {
   const requestOptions = {
     method: 'POST',
