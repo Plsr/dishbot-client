@@ -6,13 +6,6 @@
  */
 const SERVER_BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
-class ApiError extends Error {
-  constructor(message, httpStatus) {
-    super(message);
-    this.httpStatus = httpStatus;
-  }
-}
-
 export async function validateToken(token) {
   const requestOptions = {
     method: 'POST',
