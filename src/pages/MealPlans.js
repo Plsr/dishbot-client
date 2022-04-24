@@ -47,6 +47,12 @@ export default function MealPlans() {
 
   return (
     <Content>
+      { showNewForm && (
+        <Box borderWidth="1px" borderRadius="lg" p="4" mb="8">
+          <MealPlanForm recipes={recipes} />
+          <Button onClick={handleCloseButtonClick}>Close</Button>
+        </Box>
+      )}
       { mealPlanPresent() && (
         <>
           <HeaderWithButton
@@ -69,12 +75,6 @@ export default function MealPlans() {
       )}
       { !mealPlanPresent() && (
         <p>there is no current meal plan</p>
-      )}
-      { showNewForm && (
-        <>
-          <MealPlanForm recipes={recipes} />
-          <Button onClick={handleCloseButtonClick}>Close</Button>
-        </>
       )}
     </Content>
   )

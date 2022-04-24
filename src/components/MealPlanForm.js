@@ -55,11 +55,12 @@ export default function MealPlanForm({ recipes }) {
           <p>{recipe.title}</p>
         </div>
       ))}
-      <Button onClick={handleAddNewClick}>
+      <Button mb="4" onClick={handleAddNewClick}>
         add new recipe
       </Button>
+      <br />
       <Button colorScheme="whatsapp" onClick={handleSaveFormClick}>Save</Button>
-      <Modal isOpen={showModal} onClose={handleModalCloseClick}>
+      <Modal isOpen={showModal} onClose={handleModalCloseClick} scrollBehavior="inside">
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Choose recipe</ModalHeader>
