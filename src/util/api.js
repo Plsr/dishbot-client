@@ -20,6 +20,20 @@ export async function validateToken(token) {
   return json
 }
 
+export async function getCurrentMealPlan(token) {
+  const requestOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+  }
+
+  const res = await fetch(SERVER_BASE_URL + '/meal-plans/current', requestOptions)
+  if (!res.ok) throw new Error('Could not find current meal plan')
+  const json = await res.json()
+  console.log(json)
+  return json.currentMealPlan
+}
 export async function postMealPlan(token, mealPlan) {
   const requestOptions = {
     method: 'POST',
@@ -31,7 +45,7 @@ export async function postMealPlan(token, mealPlan) {
   }
 
   const res = await fetch(SERVER_BASE_URL + '/meal-plans', requestOptions)
-  if (res.status !== 201) throw new Error('Could not create Meal Plan')
+  if (!res.ok) throw new Error('Could not create Meal Plan')
   const json = await res.json()
   return json.mealPlan
 }
