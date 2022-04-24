@@ -8,6 +8,7 @@ import Recipe from '../components/Recipe';
 import { postRecipe, getRecipes as getApiRecipes } from '../util/api';
 import UserContext from '../util/userContext';
 import { Content } from '../util/layout';
+import HeaderWithButton from '../components/HeaderWithButton';
 
 export default function Recipes() {
   const [showRecipeForm, setShowRecipeForm] = useState(false);
@@ -53,12 +54,13 @@ export default function Recipes() {
 
   return (
     <Content>
-      <HeaderWrapper>
-        <Heading size="lg">Your Recipes</Heading>
-        { !showRecipeForm && (
+      <HeaderWithButton
+        title="Your Recipes"
+        showButton={!showRecipeForm}
+        button={
           <Button onClick={handleAddButtonClick} colorScheme='teal' leftIcon={<SmallAddIcon />}>Add Recipe</Button>
-        )}
-      </HeaderWrapper>
+        }
+      />
       { showRecipeForm && (
         <Form
           onClose={() => setShowRecipeForm(false)}

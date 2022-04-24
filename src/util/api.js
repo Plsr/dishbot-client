@@ -6,13 +6,6 @@
  */
 const SERVER_BASE_URL = process.env.REACT_APP_SERVER_BASE_URL
 
-class ApiError extends Error {
-  constructor(message, httpStatus) {
-    super(message);
-    this.httpStatus = httpStatus;
-  }
-}
-
 export async function validateToken(token) {
   const requestOptions = {
     method: 'POST',
@@ -25,6 +18,36 @@ export async function validateToken(token) {
   const res = await fetch(SERVER_BASE_URL + '/token',requestOptions)
   const json = await res.json()
   return json
+}
+
+export async function getCurrentMealPlan(token) {
+  const requestOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+  }
+
+  const res = await fetch(SERVER_BASE_URL + '/meal-plans/current', requestOptions)
+  if (!res.ok) throw new Error('Could not find current meal plan')
+  const json = await res.json()
+  console.log(json)
+  return json.currentMealPlan
+}
+export async function postMealPlan(token, mealPlan) {
+  const requestOptions = {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(mealPlan)
+  }
+
+  const res = await fetch(SERVER_BASE_URL + '/meal-plans', requestOptions)
+  if (!res.ok) throw new Error('Could not create Meal Plan')
+  const json = await res.json()
+  return json.mealPlan
 }
 
 export async function postRecipe(token, reicpe) {
