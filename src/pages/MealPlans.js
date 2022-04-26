@@ -45,11 +45,17 @@ export default function MealPlans() {
     return Object.keys(mealPlan).length > 0
   }
 
+  const handleNewMealPlanCreated = (newMealPlan) => {
+    if (!mealPlan) return
+    setMealPlan(newMealPlan)
+    setShowNewForm(false)
+  }
+
   return (
     <Content>
       { showNewForm && (
         <Box borderWidth="1px" borderRadius="lg" p="4" mb="8">
-          <MealPlanForm recipes={recipes} />
+          <MealPlanForm recipes={recipes} newMealPlanCreated={handleNewMealPlanCreated} />
           <Button onClick={handleCloseButtonClick}>Close</Button>
         </Box>
       )}
@@ -64,11 +70,25 @@ export default function MealPlans() {
           />
           <Box borderWidth='1px' borderRadius='lg' p="4" mb="8">
             <Heading size="md" mb="2">{ mealPlan.title }</Heading>
-            <Heading size="xs">{mealPlan.recipes.length} Recipes</Heading>
+            <Heading size="xs" mb="1">{mealPlan.recipes.length} Recipes</Heading>
             { mealPlan.recipes.map(recipe => (
-              <div key={recipe.id}>
+              <Box 
+                key={recipe.id}
+                borderWidth='1px'
+                borderRadius='lg'
+                overflow='hidden'
+                p="3"
+                mb="6"
+              >
                 <p>{recipe.title}</p>
-              </div>
+                <p>{recipe.ingredients.length} Ingredients</p>
+              </Box>
+            ))}
+          </Box>
+          <Box>
+            <Heading size="md" mb="2">Shopping List</Heading>
+            { mealPlan.shoppingList.items.map(item => (
+              <p>{item.name} {item.amount} {item.unit}</p>
             ))}
           </Box>
         </>

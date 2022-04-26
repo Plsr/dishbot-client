@@ -13,7 +13,7 @@ import {
   Box
 } from '@chakra-ui/react'
 
-export default function MealPlanForm({ recipes }) {
+export default function MealPlanForm({ recipes, newMealPlanCreated }) {
   const [selectedRecipes, setSelecteRecipes] = useState([])
   const [showModal, setShowModal] = useState(false)
   const [title, setTitle] = useState('New meal plan')
@@ -45,15 +45,23 @@ export default function MealPlanForm({ recipes }) {
 
     const mealPlan = await postMealPlan(user.accessToken, mealPlanData)
     console.log(mealPlan)
+    newMealPlanCreated(mealPlan)
   }
 
   return(
     <div>
       <Input value={title} onChange={event =>setTitle(event.target.value)} />
       { selectedRecipes.map(recipe => (
-        <div key={recipe.id}>
+        <Box
+          key={recipe.id}
+          borderWidth='1px'
+          borderRadius='lg'
+          overflow='hidden'
+          p="3"
+          mb="2"
+        >
           <p>{recipe.title}</p>
-        </div>
+        </Box>
       ))}
       <Button mb="4" onClick={handleAddNewClick}>
         add new recipe
