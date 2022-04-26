@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth"
 import auth from '../util/firebase'
-import { Button, Input, useToast, Box, Center, Heading } from '@chakra-ui/react';
+import { Button, Input, useToast, Center } from '@chakra-ui/react';
+import BoxWithTitle from "../components/BoxWithTitle";
 
 export default function SignIn() {
   const toast = useToast()
@@ -29,18 +30,7 @@ export default function SignIn() {
 
   return (
     <Center>
-      <Box
-        mt={20}
-        p={6} 
-        maxW='lg' 
-        borderWidth='1px' 
-        borderRadius='lg' 
-        overflow='hidden' 
-        boxShadow='lg'
-      >
-        <Center>
-          <Heading mb={6}>Sign in</Heading>
-        </Center>
+      <BoxWithTitle title="Sign in">
         <Input 
           mb={4}
           value={emailValue}
@@ -61,7 +51,7 @@ export default function SignIn() {
         >
           Login
         </Button>
-      </Box>
+      </BoxWithTitle>
     </Center>
   )
 }

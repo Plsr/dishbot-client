@@ -16,4 +16,15 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth(app)
 
+export const messageForFirebaseErrorCode = (firebaseErrorCode) => {
+  switch(firebaseErrorCode) {
+    case 'auth/weak-password':
+      return 'Please make sure your password is at least 6 characters long'
+    case 'auth/email-already-in-use':
+      return 'This email is already in use'
+    default:
+      return 'Something went wrong, please try again'
+  }
+}
+
 export default auth
