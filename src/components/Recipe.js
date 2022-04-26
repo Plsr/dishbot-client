@@ -1,6 +1,6 @@
 import { Box, Heading } from '@chakra-ui/react';
 
-export default function Recipe({ name, ingredients, createdAt }) {
+export default function Recipe({ name, icon, ingredients, createdAt }) {
   return(
     <Box borderWidth='1px' borderRadius='lg' overflow='hidden' p="3">
       <Box
@@ -12,7 +12,7 @@ export default function Recipe({ name, ingredients, createdAt }) {
       >
         {createdAt}
       </Box>
-      <Heading size='sm'>{ name }</Heading>
+      <Heading size='sm'>{ icon } { name }</Heading>
       {ingredients.map((ingredient, index) =>
         <Box key={index}>{ ingredient.name }</Box>
       )}

@@ -2,13 +2,21 @@ import { useState } from "react";
 import { Button, Input, Flex, Spacer } from "@chakra-ui/react"
 import IngredientFormRow from "./IngredientFormRow";
 import styled from "@emotion/styled";
+import 'emoji-mart/css/emoji-mart.css'
+import { Picker } from 'emoji-mart'
+import OutsideClickHandler from 'react-outside-click-handler'
+
+// Array of emojis related to food
+const RECOMMENDED_EMOJIS = ["🥑", "🍅", "🥕", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨", "🍦", "🍰", "🍪", "🍫", "🍬", "🍭", "🍮", "🍯", "🍤", "🍗", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨", "🍦", "🍰", "🍪", "🍫", "🍬", "🍭", "🍮", "🍯", "🍤", "🍗", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨", "🍦", "🍰", "🍪", "🍫", "🍬", "🍭", "🍮", "🍯", "🍤", "🍗", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨"]
 
 export default function RecipeForm({ onClose, onSubmit, className }) {
   const empytIngredientRow = { name: '', amount: '', unit: '' };
 
   const [ingredients, setIngredients] = useState([{...empytIngredientRow}]);
   const [title, setTitle] = useState("");
+  const [icon, setIcon] = useState(RECOMMENDED_EMOJIS[Math.floor(Math.random() * RECOMMENDED_EMOJIS.length)])
   const [description, setDescription] = useState("");
+  const [showPicker, setShowPicker] = useState(false)
 
   const handleCloseButtonClick = () => {
     onClose();
@@ -28,13 +36,14 @@ export default function RecipeForm({ onClose, onSubmit, className }) {
 
     return {
       title,
+      icon,
       description,
       ingredients: cleanedIngredients
     }
   }
 
   const formSubmittable = (formData) => {
-    if (!formData.title || !formData.ingredients || formData.ingredients.length < 1) return false;
+    if (!formData.title || !formData.icon || !formData.ingredients || formData.ingredients.length < 1) return false;
 
     formData.ingredients.forEach(ingredient => {
       if (!ingredient.name || !ingredient.amount || !ingredient.unit) {
@@ -60,14 +69,43 @@ export default function RecipeForm({ onClose, onSubmit, className }) {
     setIngredients(newIngredients);
   }
 
+  const handleEmojiButtonClick = () => {
+    setShowPicker(!showPicker)
+  }
+
+  const handlePickerOutsideClick = () => {
+    setShowPicker(false)
+  }
+
+  const handleEmojiClick = emoji => {
+    console.log(emoji)
+
+    setIcon(emoji.native)
+    setShowPicker(false)
+  }
+
   return (
     <div className={className}>
+        <EmojiWrapper>
+          <OutsideClickHandler onOutsideClick={handlePickerOutsideClick}>
+            <EmojiButton onClick={handleEmojiButtonClick}>{ icon }</EmojiButton>
+            {showPicker && (
+              <Picker
+                set="apple"
+                onSelect={handleEmojiClick}
+                showPreview={false}
+                showSkinTones={false}
+                style={{ position: 'absolute', zIndex: 2, top: '100%', left: 0 }}
+              />
+            )}
+        </OutsideClickHandler>
+      </EmojiWrapper>
       <Input placeholder="Title" value={title} onChange={handleTitleChange} mb={4} />
       <Input placeholder="Description" value={description} onChange={handleDescriptionChange} mb={4} />
       { ingredients.map((ingredient, index) => (
         <StyledIngredientFormRow
-          {...ingredient} 
-          key={index} 
+          {...ingredient}
+          key={index}
           onChange={(data) => handleIngredientRowChange(index, data)}
         />
       ))}
@@ -82,4 +120,22 @@ export default function RecipeForm({ onClose, onSubmit, className }) {
 
 const StyledIngredientFormRow = styled(IngredientFormRow)`
   margin-bottom: 1rem;
+`
+
+const EmojiWrapper = styled.div`
+  position: relative;
+  margin-bottom: 1rem;
+  display: inline-block;
+`
+
+const EmojiButton = styled.div`
+  background-color: #f8f8f8;
+  display: inline-block;
+  padding: 1rem 1.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+
+  &:hover {
+    background-color: #e8e8e8;
+  }
 `

@@ -41,7 +41,7 @@ export default function Recipes() {
         duration: 5000,
         isClosable: true,
       });
-    } catch(error) { 
+    } catch(error) {
       toast({
         title: 'Error',
         description: error.message,
@@ -69,7 +69,7 @@ export default function Recipes() {
       )}
       <SimpleGrid columns={3} spacing={10} >
         {recipes.map(recipe =>
-          <Recipe key={recipe.id} name={recipe.title} ingredients={recipe.ingredients} createdAt={recipe.createdAt} />
+          <Recipe key={recipe.id} name={recipe.title} icon={recipe.icon} ingredients={recipe.ingredients} createdAt={recipe.createdAt} />
         )}
       </SimpleGrid>
     </Content>

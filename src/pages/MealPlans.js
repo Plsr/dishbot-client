@@ -72,7 +72,7 @@ export default function MealPlans() {
             <Heading size="md" mb="2">{ mealPlan.title }</Heading>
             <Heading size="xs" mb="1">{mealPlan.recipes.length} Recipes</Heading>
             { mealPlan.recipes.map(recipe => (
-              <Box 
+              <Box
                 key={recipe.id}
                 borderWidth='1px'
                 borderRadius='lg'
