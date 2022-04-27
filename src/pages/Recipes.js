@@ -9,6 +9,7 @@ import { postRecipe, getRecipes as getApiRecipes } from '../util/api';
 import UserContext from '../util/userContext';
 import { Content } from '../util/layout';
 import HeaderWithButton from '../components/HeaderWithButton';
+import PrimaryButton from '../components/PrimaryButton';
 
 export default function Recipes() {
   const [showRecipeForm, setShowRecipeForm] = useState(false);
@@ -58,7 +59,7 @@ export default function Recipes() {
         title="Your Recipes"
         showButton={!showRecipeForm}
         button={
-          <Button onClick={handleAddButtonClick} colorScheme='teal' leftIcon={<SmallAddIcon />}>Add Recipe</Button>
+          <PrimaryButton onClick={handleAddButtonClick} leftIcon={<SmallAddIcon />}>Add Recipe</PrimaryButton>
         }
       />
       { showRecipeForm && (
