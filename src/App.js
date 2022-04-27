@@ -16,6 +16,7 @@ import Header from './components/Header';
 import Recipes from './pages/Recipes';
 import MealPlans from './pages/MealPlans';
 import SignOut from './pages/SignOut';
+import theme from './util/theme'
 
 function App() {
   const [user, setUser] = useState({})
@@ -44,7 +45,7 @@ function App() {
 }, []);
 
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <UserContext.Provider value={user}>
         <BaseStyles>
           <AppContainer>
