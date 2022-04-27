@@ -9,7 +9,7 @@ export default function Header({ loggedIn }) {
   return (
     <Wrapper>
       <Logo to="/home">
-        <Image src={logo} alt="logo" boxSize="60px" />
+        <Image src={logo} alt="logo" boxSize="50px" />
       </Logo>
       { loggedIn && (
         <>
