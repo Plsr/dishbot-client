@@ -60,8 +60,6 @@ export default function RecipeForm({ onClose, onSubmit, className }) {
     newIngredients[index] = data;
 
     if (index === ingredients.length - 1) {
-      console.log('add new row')
-      console.log(data)
       if (data.name && data.amount && data.unit) {
         setIngredients([...newIngredients, {...empytIngredientRow}]);
         return
@@ -79,8 +77,6 @@ export default function RecipeForm({ onClose, onSubmit, className }) {
   }
 
   const handleEmojiClick = emoji => {
-    console.log(emoji)
-
     setIcon(emoji.native)
     setShowPicker(false)
   }
