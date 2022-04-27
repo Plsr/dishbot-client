@@ -59,15 +59,15 @@ export default function MealPlans() {
           <Button onClick={handleCloseButtonClick}>Close</Button>
         </Box>
       )}
+      <HeaderWithButton
+        title="Current meal plan"
+        showButton={!showNewForm}
+        button={
+          <Button colorScheme="purple" onClick={handleNewButtonClick}>Create new meal plan</Button>
+        }
+      />
       { mealPlanPresent() && (
         <>
-          <HeaderWithButton
-            title="Current meal plan"
-            showButton={!showNewForm}
-            button={
-              <Button colorScheme="purple" onClick={handleNewButtonClick}>Create new meal plan</Button>
-            }
-          />
           <Box borderWidth='1px' borderRadius='lg' p="4" mb="8">
             <Heading size="md" mb="2">{ mealPlan.title }</Heading>
             <Heading size="xs" mb="1">{mealPlan.recipes.length} Recipes</Heading>
