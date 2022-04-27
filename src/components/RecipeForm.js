@@ -5,6 +5,7 @@ import styled from "@emotion/styled";
 import 'emoji-mart/css/emoji-mart.css'
 import { Picker } from 'emoji-mart'
 import OutsideClickHandler from 'react-outside-click-handler'
+import PrimaryButton from "./PrimaryButton";
 
 // Array of emojis related to food
 const RECOMMENDED_EMOJIS = ["🥑", "🍅", "🥕", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨", "🍦", "🍰", "🍪", "🍫", "🍬", "🍭", "🍮", "🍯", "🍤", "🍗", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨", "🍦", "🍰", "🍪", "🍫", "🍬", "🍭", "🍮", "🍯", "🍤", "🍗", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨", "🍦", "🍰", "🍪", "🍫", "🍬", "🍭", "🍮", "🍯", "🍤", "🍗", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨"]
@@ -112,7 +113,7 @@ export default function RecipeForm({ onClose, onSubmit, className }) {
       <Flex>
         <Button onClick={handleCloseButtonClick} mr={2}>Close</Button>
         <Spacer />
-        <Button colorScheme="blue" onClick={handleSubmitButtonClick} disabled={!formSubmittable(gatherFormData())}>Submit</Button>
+        <PrimaryButton onClick={handleSubmitButtonClick} disabled={!formSubmittable(gatherFormData())}>Submit</PrimaryButton>
       </Flex>
     </div>
   )

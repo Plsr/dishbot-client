@@ -6,6 +6,7 @@ import { getRecipes as getApiRecipes, getCurrentMealPlan as getApiCurrentMealPla
 import userContext from '../util/userContext'
 import MealPlanForm from '../components/MealPlanForm'
 import HeaderWithButton from '../components/HeaderWithButton'
+import PrimaryButton from '../components/PrimaryButton'
 
 export default function MealPlans() {
   const [showNewForm, setShowNewForm] = useState(false)
@@ -63,7 +64,7 @@ export default function MealPlans() {
         title="Current meal plan"
         showButton={!showNewForm}
         button={
-          <Button colorScheme="purple" onClick={handleNewButtonClick}>Create new meal plan</Button>
+          <PrimaryButton onClick={handleNewButtonClick}>Create new meal plan</PrimaryButton>
         }
       />
       { mealPlanPresent() && (

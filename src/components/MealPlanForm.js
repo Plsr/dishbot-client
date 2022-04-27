@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react'
 import { postMealPlan } from '../util/api'
 import userContext from '../util/userContext'
+import Recipe from './Recipe'
 import {
   Modal,
   ModalOverlay,
@@ -10,7 +11,8 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  Box
+  Box,
+  SimpleGrid
 } from '@chakra-ui/react'
 
 export default function MealPlanForm({ recipes, newMealPlanCreated }) {
@@ -51,18 +53,17 @@ export default function MealPlanForm({ recipes, newMealPlanCreated }) {
   return(
     <div>
       <Input value={title} onChange={event =>setTitle(event.target.value)} />
-      { selectedRecipes.map(recipe => (
-        <Box
-          key={recipe.id}
-          borderWidth='1px'
-          borderRadius='lg'
-          overflow='hidden'
-          p="3"
-          mb="2"
-        >
-          <p>{recipe.title}</p>
-        </Box>
-      ))}
+      <SimpleGrid columns={3} spacing={4} mt="4" mb="4" >
+        { selectedRecipes.map(recipe => (
+          <Recipe
+            key={recipe._id}
+            name={recipe.title}
+            icon={recipe.icon}
+            ingredients={recipe.ingredients}
+            createdAt={recipe.createdAt}
+          />
+        ))}
+      </SimpleGrid>
       <Button mb="4" onClick={handleAddNewClick}>
         add new recipe
       </Button>
