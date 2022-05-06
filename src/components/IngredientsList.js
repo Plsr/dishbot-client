@@ -26,14 +26,17 @@ export default function IngredientsList({ ingredients, maxIngredients }) {
           </Box>
         </>
       ))}
-      <Box
-        fontWeight="regular"
-        color="gray.500"
-        mb="1"
-        fontSize="sm"
-      >
-        + {remainingIngredients} more
-      </Box>
+      { remainingIngredients > 0 && (
+        <Box
+          fontWeight="regular"
+          color="gray.500"
+          mb="1"
+          fontSize="sm"
+        >
+          + {remainingIngredients} more
+        </Box>
+      )}
+
     </>
   );
 }
