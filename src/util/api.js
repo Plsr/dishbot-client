@@ -78,3 +78,16 @@ export async function getRecipes(token) {
   const json = await res.json()
   return json.recipes
 }
+
+export async function getRecipe(token, id) {
+  const requestOptions = {
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  }
+
+  const res = await fetch(SERVER_BASE_URL + `/recipes/${id}`, requestOptions)
+  const json = await res.json()
+  return json.recipe
+}

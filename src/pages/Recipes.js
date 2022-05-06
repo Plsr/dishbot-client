@@ -4,12 +4,12 @@ import styled from '@emotion/styled';
 import { useState, useContext, useEffect } from 'react'
 
 import RecipeForm from '../components/RecipeForm';
-import Recipe from '../components/Recipe';
 import { postRecipe, getRecipes as getApiRecipes } from '../util/api';
 import UserContext from '../util/userContext';
 import { Content } from '../util/layout';
 import HeaderWithButton from '../components/HeaderWithButton';
 import PrimaryButton from '../components/PrimaryButton';
+import ClickableRecipe from '../components/ClickableRecipe';
 
 export default function Recipes() {
   const [showRecipeForm, setShowRecipeForm] = useState(false);
@@ -70,7 +70,7 @@ export default function Recipes() {
       )}
       <SimpleGrid columns={3} spacing={10} >
         {recipes.map(recipe =>
-          <Recipe key={recipe.id} name={recipe.title} icon={recipe.icon} ingredients={recipe.ingredients} createdAt={recipe.createdAt} />
+          <ClickableRecipe key={recipe._id} id={recipe._id} name={recipe.title} icon={recipe.icon} ingredients={recipe.ingredients} createdAt={recipe.createdAt} />
         )}
       </SimpleGrid>
     </Content>

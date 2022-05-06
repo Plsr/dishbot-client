@@ -1,10 +1,11 @@
 import { Box, Heading } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import IngredientsList from './IngredientsList';
+import styled from '@emotion/styled';
 
 export default function Recipe({ name, icon, ingredients, createdAt }) {
   return(
-    <Box borderWidth='1px' borderRadius='lg' overflow='hidden' p="4">
+    <Wrapper borderWidth='1px' borderRadius='lg' overflow='hidden' p="4">
       <Heading size='md' mb="1.5">{ icon } { name }</Heading>
       <Box
         color='gray.500'
@@ -17,6 +18,14 @@ export default function Recipe({ name, icon, ingredients, createdAt }) {
         Added {format(new Date(createdAt), 'MMM dd, yyyy')}
       </Box>
       <IngredientsList ingredients={ingredients} maxIngredients={3} />
-    </Box>
+    </Wrapper>
   )
 }
+
+const Wrapper = styled(Box)`
+  cursor: pointer;
+
+  &:hover {
+    background-color: #f8f8f8;
+  }
+`
