@@ -57,10 +57,7 @@ export default function MealPlanForm({ recipes, newMealPlanCreated }) {
         { selectedRecipes.map(recipe => (
           <Recipe
             key={recipe._id}
-            name={recipe.title}
-            icon={recipe.icon}
-            ingredients={recipe.ingredients}
-            createdAt={recipe.createdAt}
+            recipe={recipe}
           />
         ))}
       </SimpleGrid>

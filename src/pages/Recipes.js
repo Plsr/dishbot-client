@@ -10,10 +10,13 @@ import { Content } from '../util/layout';
 import HeaderWithButton from '../components/HeaderWithButton';
 import PrimaryButton from '../components/PrimaryButton';
 import ClickableRecipe from '../components/ClickableRecipe';
+import Recipe from '../components/Recipe';
+import RecipeModal from '../components/RecipeModal';
 
 export default function Recipes() {
   const [showRecipeForm, setShowRecipeForm] = useState(false);
   const [recipes, setRecipes] = useState([])
+  const [selectedRecipe, setSelectedRecipe] = useState(undefined)
   const user = useContext(UserContext);
   const toast = useToast();
 
@@ -28,6 +31,14 @@ export default function Recipes() {
 
   const handleAddButtonClick = () => {
     setShowRecipeForm(true);
+  }
+
+  const handleRecipeClick = (recipeId) => {
+    setSelectedRecipe(recipeId);
+  }
+
+  const handleModalCloseClick = () => {
+    setSelectedRecipe(undefined);
   }
 
   const handleFormSubmit = async (data) => {
@@ -70,9 +81,17 @@ export default function Recipes() {
       )}
       <SimpleGrid columns={3} spacing={10} >
         {recipes.map(recipe =>
-          <ClickableRecipe key={recipe._id} id={recipe._id} name={recipe.title} icon={recipe.icon} ingredients={recipe.ingredients} createdAt={recipe.createdAt} />
+          <ClickableRecipe onClick={handleRecipeClick} key={recipe._id} recipe={recipe} />
         )}
       </SimpleGrid>
+      <RecipeModal 
+        isOpen={selectedRecipe}
+      >
+        <div onClick={handleModalCloseClick}>Close</div>
+        { selectedRecipe && (
+          <Recipe recipe={recipes.find(recipe => recipe._id === selectedRecipe)} />
+        )}
+      </RecipeModal>
     </Content>
   )
 }
