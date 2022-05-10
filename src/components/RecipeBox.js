@@ -2,12 +2,11 @@ import { Box, Heading } from '@chakra-ui/react';
 import { format } from 'date-fns';
 import IngredientsList from './IngredientsList';
 
-export default function Recipe({ recipe }) {
+export default function RecipeBox({ recipe }) {
   const { title, createdAt, icon, ingredients } = recipe;
   return(
-    <>
-      <div>{ icon }</div>
-      <Heading size='md' mb="1.5">{ title }</Heading>
+    <Box borderWidth='1px' borderRadius='lg' overflow='hidden' p="4">
+      <Heading size='md' mb="1.5">{ icon } { title }</Heading>
       <Box
         color='gray.500'
         fontWeight='semibold'
@@ -18,7 +17,7 @@ export default function Recipe({ recipe }) {
       >
         Added {format(new Date(createdAt), 'MMM dd, yyyy')}
       </Box>
-      <IngredientsList ingredients={ingredients} maxIngredients={ingredients.length} />
-    </>
+      <IngredientsList ingredients={ingredients} maxIngredients={3} />
+    </Box>
   )
 }

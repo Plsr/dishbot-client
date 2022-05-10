@@ -1,5 +1,5 @@
-import { Button, Heading, SimpleGrid, useToast } from '@chakra-ui/react';
-import { SmallAddIcon } from '@chakra-ui/icons';
+import { SimpleGrid, useToast, Flex, Button } from '@chakra-ui/react';
+import { SmallAddIcon, CloseIcon } from '@chakra-ui/icons';
 import styled from '@emotion/styled';
 import { useState, useContext, useEffect } from 'react'
 
@@ -84,10 +84,10 @@ export default function Recipes() {
           <ClickableRecipe onClick={handleRecipeClick} key={recipe._id} recipe={recipe} />
         )}
       </SimpleGrid>
-      <RecipeModal 
+      <RecipeModal
         isOpen={selectedRecipe}
+        onClose={handleModalCloseClick}
       >
-        <div onClick={handleModalCloseClick}>Close</div>
         { selectedRecipe && (
           <Recipe recipe={recipes.find(recipe => recipe._id === selectedRecipe)} />
         )}
@@ -100,9 +100,3 @@ const Form = styled(RecipeForm)`
   margin-bottom: 2rem;
 `
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-`

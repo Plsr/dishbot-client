@@ -1,4 +1,4 @@
-import Recipe from './Recipe'
+import RecipeBox from './RecipeBox'
 import styled from '@emotion/styled';
 
 export default function ClickableRecipe({ onClick, recipe }) {
@@ -8,7 +8,7 @@ export default function ClickableRecipe({ onClick, recipe }) {
 
   return (
     <Wrapper role="button" onClick={handleClick}>
-      <Recipe recipe={recipe} />
+      <RecipeBox recipe={recipe} />
     </Wrapper>
   )
 }
