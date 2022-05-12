@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { useState, useContext, useEffect } from 'react'
 
 import RecipeForm from '../components/RecipeForm';
-import { postRecipe, getRecipes as getApiRecipes } from '../util/api';
+import { postRecipe, getRecipes as getApiRecipes, deleteRecipe } from '../util/api';
 import UserContext from '../util/userContext';
 import { Content } from '../util/layout';
 import HeaderWithButton from '../components/HeaderWithButton';
@@ -39,6 +39,23 @@ export default function Recipes() {
 
   const handleModalCloseClick = () => {
     setSelectedRecipe(undefined);
+  }
+
+  const handleDeleteRecipe = async() => {
+    try {
+      await deleteRecipe(user.accessToken, selectedRecipe);
+      const newRecipes = recipes.filter(recipe => recipe._id !== selectedRecipe);
+      setSelectedRecipe(undefined);
+      setRecipes([...newRecipes]);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
   }
 
   const handleFormSubmit = async (data) => {
@@ -87,6 +104,7 @@ export default function Recipes() {
       <RecipeModal
         isOpen={selectedRecipe}
         onClose={handleModalCloseClick}
+        onDeleteRecipe={handleDeleteRecipe}
       >
         { selectedRecipe && (
           <Recipe recipe={recipes.find(recipe => recipe._id === selectedRecipe)} />

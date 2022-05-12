@@ -91,3 +91,17 @@ export async function getRecipe(token, id) {
   const json = await res.json()
   return json.recipe
 }
+
+export async function deleteRecipe(token, id) {
+  const requestOptions = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  }
+
+  const res = await fetch(SERVER_BASE_URL + `/recipes/${id}`, requestOptions)
+  if (!res.ok) throw new Error("Could not delete recipe")
+  return true
+}
