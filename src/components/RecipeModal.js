@@ -25,7 +25,10 @@ export default function RecipeModal({ isOpen, onClose, children, onDeleteRecipe 
 
   const closePopover = () => setPopoverOpen(false)
 
-  const handleDeleteClick = () => onDeleteRecipe()
+  const handleDeleteClick = () => {
+    setPopoverOpen(false)
+    onDeleteRecipe()
+  }
 
   return (
     <Modal
