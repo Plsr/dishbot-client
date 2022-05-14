@@ -10,13 +10,13 @@ import PrimaryButton from "./PrimaryButton";
 // Array of emojis related to food
 const RECOMMENDED_EMOJIS = ["🥑", "🍅", "🥕", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨", "🍦", "🍰", "🍪", "🍫", "🍬", "🍭", "🍮", "🍯", "🍤", "🍗", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨", "🍦", "🍰", "🍪", "🍫", "🍬", "🍭", "🍮", "🍯", "🍤", "🍗", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨", "🍦", "🍰", "🍪", "🍫", "🍬", "🍭", "🍮", "🍯", "🍤", "🍗", "🍔", "🍟", "🍕", "🍗", "🍝", "🍜", "🍲", "🍣", "🍱", "🍛", "🍙", "🍚", "🍘", "🍢", "🍡", "🍧", "🍨"]
 
-export default function RecipeForm({ onClose, onSubmit, className }) {
+export default function RecipeForm({ onClose, onSubmit, className, initialTitle, InitialIngredients, initialDescription, initialIcon }) {
   const empytIngredientRow = { name: '', amount: '', unit: '' };
 
-  const [ingredients, setIngredients] = useState([{...empytIngredientRow}]);
-  const [title, setTitle] = useState("");
-  const [icon, setIcon] = useState(RECOMMENDED_EMOJIS[Math.floor(Math.random() * RECOMMENDED_EMOJIS.length)])
-  const [description, setDescription] = useState("");
+  const [ingredients, setIngredients] = useState(InitialIngredients ? [...InitialIngredients] : [{...empytIngredientRow}]);
+  const [title, setTitle] = useState(initialTitle || '');
+  const [icon, setIcon] = useState(initialIcon || RECOMMENDED_EMOJIS[Math.floor(Math.random() * RECOMMENDED_EMOJIS.length)])
+  const [description, setDescription] = useState(initialDescription || "");
   const [showPicker, setShowPicker] = useState(false)
 
   const handleCloseButtonClick = () => {

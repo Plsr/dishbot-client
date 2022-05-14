@@ -18,7 +18,7 @@ import {
 import { useState } from 'react'
 import OutsideClickHandler from 'react-outside-click-handler'
 
-export default function RecipeModal({ isOpen, onClose, children, onDeleteRecipe }) {
+export default function RecipeModal({ isOpen, onClose, children, onDeleteRecipe, onEditClick }) {
   const [popoverOpen, setPopoverOpen] = useState(false)
 
   const togglePopover = () => setPopoverOpen(!popoverOpen)
@@ -28,6 +28,10 @@ export default function RecipeModal({ isOpen, onClose, children, onDeleteRecipe 
   const handleDeleteClick = () => {
     setPopoverOpen(false)
     onDeleteRecipe()
+  }
+
+  const handleEditClick = () => {
+    onEditClick()
   }
 
   return (
@@ -41,32 +45,7 @@ export default function RecipeModal({ isOpen, onClose, children, onDeleteRecipe 
       <ModalContent>
         <ModalHeader mb="4"></ModalHeader>
         <ModalCloseButton onClick={onClose}/>
-        <ModalBody>
-          { children }
-        </ModalBody>
-        <ModalFooter>
-          <Button display="none" variant='outline' mr="4">Edit</Button>
-          <Popover isOpen={popoverOpen} >
-            <OutsideClickHandler onOutsideClick={() => setPopoverOpen(false)}>
-            <PopoverTrigger>
-              <Button colorScheme='red' mr={3} onClick={togglePopover}>
-                Delete
-              </Button>
-              </PopoverTrigger>        
-              <PopoverContent py={4}>
-                <PopoverArrow />
-                <PopoverHeader>Are you sure?</PopoverHeader>
-                <PopoverBody>You will not be able to restore this recipe and it will be removed from all meal plans</PopoverBody>
-                <Flex justify="flex-end">
-                  <Button variant='outline' mr="4" onClick={closePopover}>No</Button>
-                  <Button colorScheme='red' mr={3} onClick={handleDeleteClick}>
-                    Yes, Delete
-                  </Button>
-                </Flex>
-              </PopoverContent>
-            </OutsideClickHandler>
-          </Popover>
-        </ModalFooter>
+        { children }
       </ModalContent>
     </Modal>
   )

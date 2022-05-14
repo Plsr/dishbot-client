@@ -4,19 +4,21 @@ import styled from '@emotion/styled';
 import { useState, useContext, useEffect } from 'react'
 
 import RecipeForm from '../components/RecipeForm';
-import { postRecipe, getRecipes as getApiRecipes, deleteRecipe } from '../util/api';
+import { postRecipe, getRecipes as getApiRecipes, deleteRecipe, patchRecipe } from '../util/api';
 import UserContext from '../util/userContext';
 import { Content } from '../util/layout';
 import HeaderWithButton from '../components/HeaderWithButton';
 import PrimaryButton from '../components/PrimaryButton';
 import ClickableRecipe from '../components/ClickableRecipe';
-import Recipe from '../components/Recipe';
 import RecipeModal from '../components/RecipeModal';
+import RecipeModalContent from '../components/RecipeModalContent';
+import RecipeModalRegularFooter from '../components/RecipeModalRegularFooter';
 
 export default function Recipes() {
   const [showRecipeForm, setShowRecipeForm] = useState(false);
   const [recipes, setRecipes] = useState([])
   const [selectedRecipe, setSelectedRecipe] = useState(undefined)
+  const [editMode, setEditMode] = useState(false)
   const user = useContext(UserContext);
   const toast = useToast();
 
@@ -39,6 +41,7 @@ export default function Recipes() {
 
   const handleModalCloseClick = () => {
     setSelectedRecipe(undefined);
+    setEditMode(false);
   }
 
   const handleDeleteRecipe = async() => {
@@ -48,6 +51,35 @@ export default function Recipes() {
       setSelectedRecipe(undefined);
       setRecipes([...newRecipes]);
     } catch (error) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }
+
+  const handleEditClick = () => {
+    setEditMode(true)
+  }
+
+  const handleEditFormSubmit = async(data) => {
+    try {
+      const recipe = await patchRecipe(user.accessToken, data);
+      const recipesWithoutEdited = recipes.filter(recipe => recipe._id !== data._id); 
+      setRecipes([...recipesWithoutEdited, recipe]);
+      setSelectedRecipe(undefined);
+      setEditMode(false)
+      toast({
+        title: 'Success',
+        description: 'Recipe has successfully been added',
+        status: 'success',
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch(error) {
       toast({
         title: 'Error',
         description: error.message,
@@ -105,10 +137,17 @@ export default function Recipes() {
         isOpen={selectedRecipe}
         onClose={handleModalCloseClick}
         onDeleteRecipe={handleDeleteRecipe}
+        onEditClick={handleEditClick}
       >
-        { selectedRecipe && (
-          <Recipe recipe={recipes.find(recipe => recipe._id === selectedRecipe)} />
-        )}
+        <>
+          <RecipeModalContent
+            isEditMode={editMode}
+            recipe={selectedRecipe && recipes.find(recipe => recipe._id === selectedRecipe)} 
+            onEditSave={data => handleEditFormSubmit({...data, _id: selectedRecipe })}
+            onEditAbort={() => setEditMode(false)}
+          />
+          <RecipeModalRegularFooter onEditClick={handleEditClick} onDeleteRecipe={handleDeleteRecipe} />
+        </>
       </RecipeModal>
     </Content>
   )

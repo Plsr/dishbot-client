@@ -66,6 +66,24 @@ export async function postRecipe(token, reicpe) {
   return json.recipe
 }
 
+export async function patchRecipe(token, recipe) {
+  console.log(recipe)
+  const recipeId = recipe._id
+  const requestOptions = {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(recipe)
+  }
+
+  const res = await fetch(SERVER_BASE_URL + '/recipes/' + recipeId, requestOptions)
+  if (res.status !== 200) throw new Error("Could not patch recipe")
+  const json = await res.json()
+  return json.recipe
+}
+
 export async function getRecipes(token) {
   const requestOptions = {
     headers: {
