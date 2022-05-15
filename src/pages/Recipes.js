@@ -1,5 +1,5 @@
 import { SimpleGrid, useToast, Flex, Button } from '@chakra-ui/react';
-import { SmallAddIcon, CloseIcon } from '@chakra-ui/icons';
+import { SmallAddIcon } from '@chakra-ui/icons';
 import styled from '@emotion/styled';
 import { useState, useContext, useEffect } from 'react'
 
@@ -68,24 +68,22 @@ export default function Recipes() {
   const handleEditFormSubmit = async(data) => {
     try {
       const recipe = await patchRecipe(user.accessToken, data);
-      const recipesWithoutEdited = recipes.filter(recipe => recipe._id !== data._id); 
-      setRecipes([...recipesWithoutEdited, recipe]);
+      const updateRecipeIndex = recipes.findIndex(recipe => recipe._id === data._id); 
+      const updatedRecipes = [...recipes];
+      updatedRecipes[updateRecipeIndex] = recipe;
+      setRecipes([...updatedRecipes]);
       setSelectedRecipe(undefined);
       setEditMode(false)
       toast({
         title: 'Success',
         description: 'Recipe has successfully been added',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
+        status: 'success'
       });
     } catch(error) {
       toast({
         title: 'Error',
         description: error.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
+        status: 'error'
       });
     }
   }
@@ -98,17 +96,13 @@ export default function Recipes() {
       toast({
         title: 'Success',
         description: 'Recipe has successfully been added',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
+        status: 'success'
       });
     } catch(error) {
       toast({
         title: 'Error',
         description: error.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
+        status: 'error'
       });
     }
   }
