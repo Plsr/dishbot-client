@@ -15,7 +15,6 @@ export default function IngredientsList({ ingredients, maxIngredients }) {
           >
             {ingredient.name}
             <Box
-              key={index}
               fontWeight="semibold"
               color="gray.400"
               display="inline"

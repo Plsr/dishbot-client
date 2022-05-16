@@ -5,7 +5,6 @@ import RequireAuth from './RequireAuth';
 import Landing from '../pages/Landing';
 import SignUp from '../pages/SignUp';
 import Recipes from '../pages/Recipes';
-import Recipe from '../pages/Recipe'
 import MealPlans from '../pages/MealPlans';
 import SignOut from '../pages/SignOut';
 import Home from '../pages/Home';
@@ -23,12 +22,6 @@ export default function AppRoutes() {
       <Route path="/recipes" element={
         <RequireAuth>
           <Recipes />
-        </RequireAuth>
-        }
-      />
-      <Route path="/recipes/:id" element={
-        <RequireAuth>
-          <Recipe />
         </RequireAuth>
         }
       />

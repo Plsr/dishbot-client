@@ -1,19 +1,24 @@
-import { Button, Heading, SimpleGrid, useToast } from '@chakra-ui/react';
+import { SimpleGrid, useToast, Flex, Button } from '@chakra-ui/react';
 import { SmallAddIcon } from '@chakra-ui/icons';
 import styled from '@emotion/styled';
 import { useState, useContext, useEffect } from 'react'
 
 import RecipeForm from '../components/RecipeForm';
-import { postRecipe, getRecipes as getApiRecipes } from '../util/api';
+import { postRecipe, getRecipes as getApiRecipes, deleteRecipe, patchRecipe } from '../util/api';
 import UserContext from '../util/userContext';
 import { Content } from '../util/layout';
 import HeaderWithButton from '../components/HeaderWithButton';
 import PrimaryButton from '../components/PrimaryButton';
 import ClickableRecipe from '../components/ClickableRecipe';
+import RecipeModal from '../components/RecipeModal';
+import RecipeModalContent from '../components/RecipeModalContent';
+import RecipeModalRegularFooter from '../components/RecipeModalRegularFooter';
 
 export default function Recipes() {
   const [showRecipeForm, setShowRecipeForm] = useState(false);
   const [recipes, setRecipes] = useState([])
+  const [selectedRecipe, setSelectedRecipe] = useState(undefined)
+  const [editMode, setEditMode] = useState(false)
   const user = useContext(UserContext);
   const toast = useToast();
 
@@ -30,6 +35,59 @@ export default function Recipes() {
     setShowRecipeForm(true);
   }
 
+  const handleRecipeClick = (recipeId) => {
+    setSelectedRecipe(recipeId);
+  }
+
+  const handleModalCloseClick = () => {
+    setSelectedRecipe(undefined);
+    setEditMode(false);
+  }
+
+  const handleDeleteRecipe = async() => {
+    try {
+      await deleteRecipe(user.accessToken, selectedRecipe);
+      const newRecipes = recipes.filter(recipe => recipe._id !== selectedRecipe);
+      setSelectedRecipe(undefined);
+      setRecipes([...newRecipes]);
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }
+
+  const handleEditClick = () => {
+    setEditMode(true)
+  }
+
+  const handleEditFormSubmit = async(data) => {
+    try {
+      const recipe = await patchRecipe(user.accessToken, data);
+      const updateRecipeIndex = recipes.findIndex(recipe => recipe._id === data._id); 
+      const updatedRecipes = [...recipes];
+      updatedRecipes[updateRecipeIndex] = recipe;
+      setRecipes([...updatedRecipes]);
+      setSelectedRecipe(undefined);
+      setEditMode(false)
+      toast({
+        title: 'Success',
+        description: 'Recipe has successfully been added',
+        status: 'success'
+      });
+    } catch(error) {
+      toast({
+        title: 'Error',
+        description: error.message,
+        status: 'error'
+      });
+    }
+  }
+
   const handleFormSubmit = async (data) => {
     try {
       const recipe = await postRecipe(user.accessToken, data)
@@ -38,17 +96,13 @@ export default function Recipes() {
       toast({
         title: 'Success',
         description: 'Recipe has successfully been added',
-        status: 'success',
-        duration: 5000,
-        isClosable: true,
+        status: 'success'
       });
     } catch(error) {
       toast({
         title: 'Error',
         description: error.message,
-        status: 'error',
-        duration: 9000,
-        isClosable: true,
+        status: 'error'
       });
     }
   }
@@ -70,9 +124,25 @@ export default function Recipes() {
       )}
       <SimpleGrid columns={3} spacing={10} >
         {recipes.map(recipe =>
-          <ClickableRecipe key={recipe._id} id={recipe._id} name={recipe.title} icon={recipe.icon} ingredients={recipe.ingredients} createdAt={recipe.createdAt} />
+          <ClickableRecipe onClick={handleRecipeClick} key={recipe._id} recipe={recipe} />
         )}
       </SimpleGrid>
+      <RecipeModal
+        isOpen={selectedRecipe}
+        onClose={handleModalCloseClick}
+        onDeleteRecipe={handleDeleteRecipe}
+        onEditClick={handleEditClick}
+      >
+        <>
+          <RecipeModalContent
+            isEditMode={editMode}
+            recipe={selectedRecipe && recipes.find(recipe => recipe._id === selectedRecipe)} 
+            onEditSave={data => handleEditFormSubmit({...data, _id: selectedRecipe })}
+            onEditAbort={() => setEditMode(false)}
+          />
+          <RecipeModalRegularFooter onEditClick={handleEditClick} onDeleteRecipe={handleDeleteRecipe} />
+        </>
+      </RecipeModal>
     </Content>
   )
 }
@@ -81,9 +151,3 @@ const Form = styled(RecipeForm)`
   margin-bottom: 2rem;
 `
 
-const HeaderWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 2rem;
-`

@@ -1,7 +1,7 @@
 import { useState, useContext } from 'react'
 import { postMealPlan } from '../util/api'
 import userContext from '../util/userContext'
-import Recipe from './Recipe'
+import RecipeBox from './RecipeBox'
 import {
   Modal,
   ModalOverlay,
@@ -55,12 +55,9 @@ export default function MealPlanForm({ recipes, newMealPlanCreated }) {
       <Input value={title} onChange={event =>setTitle(event.target.value)} />
       <SimpleGrid columns={3} spacing={4} mt="4" mb="4" >
         { selectedRecipes.map(recipe => (
-          <Recipe
+          <RecipeBox
             key={recipe._id}
-            name={recipe.title}
-            icon={recipe.icon}
-            ingredients={recipe.ingredients}
-            createdAt={recipe.createdAt}
+            recipe={recipe}
           />
         ))}
       </SimpleGrid>
